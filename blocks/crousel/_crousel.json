@@ -3,6 +3,7 @@
     {
       "title": "Crousel",
       "id": "crousel",
+      "groups": ["Blocks"], 
       "plugins": {
         "xwalk": {
           "page": {
@@ -18,6 +19,30 @@
     }
   ],
   "models": [
+    {
+      "id": "crousel",
+      "fields": [
+        {
+          "component": "text",
+          "name": "text",
+          "value": "",
+          "label": "Text",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "crousel",
+      "fields": [
+        {
+          "component": "text",
+          "name": "text",
+          "value": "",
+          "label": "Text",
+          "valueType": "string"
+        }
+      ]
+    },
     {
       "id": "crousel",
       "fields": [
