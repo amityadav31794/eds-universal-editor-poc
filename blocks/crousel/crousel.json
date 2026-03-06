@@ -3,6 +3,7 @@
     {
       "title": "Crousel",
       "id": "crousel",
+      "groups": ["General Blocks"],
       "plugins": {
         "xwalk": {
           "page": {
