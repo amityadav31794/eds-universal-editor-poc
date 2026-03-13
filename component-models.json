@@ -52,30 +52,12 @@
         "name": "titleType",
         "label": "Title Type",
         "options": [
-          {
-            "name": "h1",
-            "value": "h1"
-          },
-          {
-            "name": "h2",
-            "value": "h2"
-          },
-          {
-            "name": "h3",
-            "value": "h3"
-          },
-          {
-            "name": "h4",
-            "value": "h4"
-          },
-          {
-            "name": "h5",
-            "value": "h5"
-          },
-          {
-            "name": "h6",
-            "value": "h6"
-          }
+          { "name": "h1", "value": "h1" },
+          { "name": "h2", "value": "h2" },
+          { "name": "h3", "value": "h3" },
+          { "name": "h4", "value": "h4" },
+          { "name": "h5", "value": "h5" },
+          { "name": "h6", "value": "h6" }
         ]
       }
     ]
@@ -103,18 +85,9 @@
         "name": "linkType",
         "label": "Type",
         "options": [
-          {
-            "name": "default",
-            "value": ""
-          },
-          {
-            "name": "primary",
-            "value": "primary"
-          },
-          {
-            "name": "secondary",
-            "value": "secondary"
-          }
+          { "name": "default", "value": "" },
+          { "name": "primary", "value": "primary" },
+          { "name": "secondary", "value": "secondary" }
         ]
       }
     ]
@@ -133,11 +106,34 @@
         "name": "style",
         "label": "Style",
         "options": [
-          {
-            "name": "Highlight",
-            "value": "highlight"
-          }
+          { "name": "Highlight", "value": "highlight" }
         ]
+      }
+    ]
+  },
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Alt",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
       }
     ]
   },
@@ -202,28 +198,126 @@
     ]
   },
   {
-    "id": "hero",
+    "id": "campaign-header",
     "fields": [
       {
-        "component": "reference",
+        "component": "select",
+        "name": "variant",
+        "label": "Variant",
         "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
+        "options": [
+          { "name": "V1 (Icon Logo)", "value": "v1" },
+          { "name": "V2 (Image Logo + CTA)", "value": "v2" }
+        ]
       },
       {
         "component": "text",
+        "name": "linkText",
+        "label": "Back Link Text",
         "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
+        "description": "Text shown next to back arrow. Leave empty to hide back link."
       },
       {
-        "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
+        "component": "text",
+        "name": "urlLinkPath",
+        "label": "Back Link URL",
+        "valueType": "string",
+        "description": "URL for the back navigation link"
+      },
+      {
+        "component": "text",
+        "name": "logoLinkPath",
+        "label": "Logo Link URL",
+        "valueType": "string",
+        "description": "URL the logo links to"
+      },
+      {
+        "component": "checkbox",
+        "name": "openInNewTab",
+        "label": "Open Links in New Tab",
+        "valueType": "boolean"
+      }
+    ]
+  },
+  {
+    "id": "campaign-header-v2",
+    "fields": [
+      {
+        "component": "select",
+        "name": "variant",
+        "label": "Variant",
+        "valueType": "string",
+        "options": [
+          { "name": "V1 (Icon Logo)", "value": "v1" },
+          { "name": "V2 (Image Logo + CTA)", "value": "v2" }
+        ]
+      },
+      {
+        "component": "text",
+        "name": "linkText",
+        "label": "Back Link Text",
+        "valueType": "string",
+        "description": "Text shown next to back arrow. Leave empty to hide back link."
+      },
+      {
+        "component": "text",
+        "name": "urlLinkPath",
+        "label": "Back Link URL",
+        "valueType": "string",
+        "description": "URL for the back navigation link"
+      },
+      {
+        "component": "text",
+        "name": "logoLinkPath",
+        "label": "Logo Link URL",
+        "valueType": "string",
+        "description": "URL the logo links to"
+      },
+      {
+        "component": "reference",
+        "name": "logoImage",
+        "label": "Logo Image",
+        "valueType": "string",
+        "description": "Custom logo image. If empty falls back to default SVG icon logo."
+      },
+      {
+        "component": "text",
+        "name": "logoImageAlt",
+        "label": "Logo Image Alt Text",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "ctaText",
+        "label": "CTA Button Text",
+        "valueType": "string",
+        "description": "Text for the CTA button. Leave empty to hide button."
+      },
+      {
+        "component": "text",
+        "name": "ctaUrl",
+        "label": "CTA Button URL",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "ctaBgColor",
+        "label": "CTA Background Color",
+        "valueType": "string",
+        "description": "Hex color code e.g. #FF0000"
+      },
+      {
+        "component": "checkbox",
+        "name": "openInNewTab",
+        "label": "Open Links in New Tab",
+        "valueType": "boolean"
+      },
+      {
+        "component": "text",
+        "name": "modalId",
+        "label": "Modal ID",
+        "valueType": "string",
+        "description": "If set CTA opens a modal instead of navigating"
       }
     ]
   }

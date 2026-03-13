@@ -16,13 +16,24 @@
       "cards",
       "columns",
       "fragment",
-      "crousel"
+      "crousel",
+      "campaign-header",
+      "campaign-header-v2"
     ]
   },
   {
     "id": "cards",
     "components": [
       "card"
+    ]
+  },
+  {
+    "id": "crousel",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
     ]
   },
   {
