@@ -1,14 +1,14 @@
 // V1 — icon logo + back link only
-// No variant field — this IS v1
+// Logo picked by author from DAM via reference field
 
 async function initHeadroom(block) {
   try {
     const { default: Headroom } = await import(
       'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/headroom.esm.min.js'
     );
-    const tolerance = document.querySelector('.hero-jump-links__sticky')
-      ? 200000
-      : 1000;
+    const tolerance = document.querySelector(
+      '.hero-jump-links__sticky'
+    ) ? 200000 : 1000;
     new Headroom(block, { tolerance }).init();
   } catch (e) {
     console.warn('Headroom failed to load', e);
@@ -61,16 +61,19 @@ function handleResponsive(block, backLinkCol, logoCol) {
 
 export default async function decorate(block) {
 
-  // V1 model field order (no variant row):
+  // V1 model field order:
   // 0 = linkText
   // 1 = urlLinkPath
   // 2 = logoLinkPath
-  // 3 = openInNewTab
+  // 3 = logoIcon      ← NEW (reference → renders as <img> from DAM)
+  // 4 = logoIconAlt   ← NEW (alt text for logo)
+  // 5 = openInNewTab
 
   const rows = [...block.children];
 
   function getRowText(i) {
-    return rows[i]?.querySelector('div')
+    return rows[i]
+      ?.querySelector('div')
       ?.textContent?.trim() || '';
   }
 
@@ -80,10 +83,18 @@ export default async function decorate(block) {
       || '/#';
   }
 
-  const linkText    = getRowText(0);
-  const urlLinkPath = getRowHref(1);
-  const logoLinkPath= getRowHref(2);
-  const openInNewTab= getRowText(3) === 'true';
+  // reference field renders as <img> tag in the row
+  // UE puts the DAM image directly as <img src="/content/dam/...">
+  function getRowImg(i) {
+    return rows[i]?.querySelector('img') || null;
+  }
+
+  const linkText     = getRowText(0);
+  const urlLinkPath  = getRowHref(1);
+  const logoLinkPath = getRowHref(2);
+  const logoImg      = getRowImg(3);   // ← DAM image picked by author
+  const logoIconAlt  = getRowText(4);
+  const openInNewTab = getRowText(5) === 'true';
 
   // ── ADD CLASS ──
   block.classList.add('campaign-template-header');
@@ -140,14 +151,51 @@ export default async function decorate(block) {
     logoLink.rel = 'noopener noreferrer';
   }
 
-  // V1 always uses SVG icon logo
-  const icon = document.createElement('span');
-  icon.className =
-    'icon icon--logo--full--mixed icon--extra-large logo';
-  logoLink.appendChild(icon);
+  // ── LOGO ICON — Option 1 ──
+  if (logoImg) {
+    // author picked image from DAM via reference field
+    // UE already gave us <img> — just add classes and alt
+    logoImg.classList.add(
+      'icon',
+      'icon--logo--full--mixed',
+      'icon--extra-large',
+      'icon--default'
+    );
+    logoImg.alt = logoIconAlt || '';
+
+    // append DAM image inside <a>
+    logoLink.appendChild(logoImg);
+
+  } else {
+    // fallback — author did not pick any image
+    // render original SVG sprite tag
+    const svg = document.createElementNS(
+      'http://www.w3.org/2000/svg', 'svg'
+    );
+    svg.setAttribute('role', 'img');
+    svg.classList.add(
+      'icon',
+      'icon--logo--full--mixed',
+      'icon--extra-large',
+      'icon--default'
+    );
+
+    const use = document.createElementNS(
+      'http://www.w3.org/2000/svg', 'use'
+    );
+    use.setAttributeNS(
+      'http://www.w3.org/1999/xlink',
+      'xlink:href',
+      '#icon-logo--full--mixed'
+    );
+
+    svg.appendChild(use);
+    logoLink.appendChild(svg);
+  }
+
   logoCol.appendChild(logoLink);
 
-  // ── EMPTY COL 3 (v1 has no CTA) ──
+  // ── EMPTY COL 3 — v1 has no CTA ──
   const emptyCol = document.createElement('div');
   emptyCol.className =
     'grid__col-size-4 grid__col-position-10 ' +

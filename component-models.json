@@ -197,48 +197,48 @@
       }
     ]
   },
-  {
-    "id": "campaign-header",
-    "fields": [
-      {
-        "component": "select",
-        "name": "variant",
-        "label": "Variant",
-        "valueType": "string",
-        "options": [
-          { "name": "V1 (Icon Logo)", "value": "v1" },
-          { "name": "V2 (Image Logo + CTA)", "value": "v2" }
-        ]
-      },
-      {
-        "component": "text",
-        "name": "linkText",
-        "label": "Back Link Text",
-        "valueType": "string",
-        "description": "Text shown next to back arrow. Leave empty to hide back link."
-      },
-      {
-        "component": "text",
-        "name": "urlLinkPath",
-        "label": "Back Link URL",
-        "valueType": "string",
-        "description": "URL for the back navigation link"
-      },
-      {
-        "component": "text",
-        "name": "logoLinkPath",
-        "label": "Logo Link URL",
-        "valueType": "string",
-        "description": "URL the logo links to"
-      },
-      {
-        "component": "checkbox",
-        "name": "openInNewTab",
-        "label": "Open Links in New Tab",
-        "valueType": "boolean"
-      }
-    ]
-  },
+ {
+  "id": "campaign-header",
+  "fields": [
+    {
+      "component": "text",
+      "name": "linkText",
+      "label": "Back Link Text",
+      "valueType": "string"
+    },
+    {
+      "component": "text",
+      "name": "urlLinkPath",
+      "label": "Back Link URL",
+      "valueType": "string"
+    },
+    {
+      "component": "text",
+      "name": "logoLinkPath",
+      "label": "Logo Link URL",
+      "valueType": "string"
+    },
+    {
+      "component": "reference",
+      "name": "logoIcon",
+      "label": "Logo Icon (SVG)",
+      "valueType": "string",
+      "description": "Pick SVG or image from DAM"
+    },
+    {
+      "component": "text",
+      "name": "logoIconAlt",
+      "label": "Logo Icon Alt Text",
+      "valueType": "string"
+    },
+    {
+      "component": "checkbox",
+      "name": "openInNewTab",
+      "label": "Open Links in New Tab",
+      "valueType": "boolean"
+    }
+  ]
+},
   {
     "id": "campaign-header-v2",
     "fields": [
