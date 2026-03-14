@@ -1,358 +1,183 @@
-// blocks/campaign-header/campaign-header.js
-// Migrated from AEM React CampaignTemplateHeader component
-// Replaces: CampaignTemplateHeader.zb.jsx
-//           example.zb.jsx
-//           container.zb.js (Headroom logic)
+// V1 — icon logo + back link only
+// No variant field — this IS v1
 
-// dynamic import Headroom.js (replaces require('headroom.js'))
-// async function loadHeadroom() {
-//   const { default: Headroom } = await import(
-//     'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/headroom.esm.min.js'
-//   );
-//   return Headroom;
-// }
+async function initHeadroom(block) {
+  try {
+    const { default: Headroom } = await import(
+      'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/headroom.esm.min.js'
+    );
+    const tolerance = document.querySelector('.hero-jump-links__sticky')
+      ? 200000
+      : 1000;
+    new Headroom(block, { tolerance }).init();
+  } catch (e) {
+    console.warn('Headroom failed to load', e);
+  }
+}
 
-// // ── HELPERS ──
+function handleResponsive(block, backLinkCol, logoCol) {
+  const mq = window.matchMedia('(max-width: 768px)');
 
-// function createBackLink(linkText, urlLinkPath, openInNewTab, ctaBgColor) {
-//   if (!urlLinkPath) return null;
+  function onChange(e) {
+    if (!backLinkCol || !logoCol) return;
 
-//   const link = document.createElement('a');
-//   link.href = urlLinkPath || '/#';
-//   link.className = [
-//     'campaign-template-header--back',
-//     'flex',
-//     'flex--row',
-//     'flex--justify-content-between',
-//     'flex--align-items-center'
-//   ].join(' ');
+    if (e.matches) {
+      // mobile
+      backLinkCol.classList.replace(
+        'grid__col-size-4', 'grid__col-size-6'
+      );
+      logoCol.classList.replace(
+        'grid__col-size-4', 'grid__col-size-6'
+      );
+      logoCol.classList.replace(
+        'grid__col-position-5', 'grid__col-position-7'
+      );
+      logoCol.classList.add('flex--justify-content-end');
+      block.querySelector(
+        '.campaign-template-header--back__text'
+      )?.classList.add('hide');
 
-//   if (openInNewTab) {
-//     link.target = '_blank';
-//     link.rel = 'noopener noreferrer';
-//   }
+    } else {
+      // desktop
+      backLinkCol.classList.replace(
+        'grid__col-size-6', 'grid__col-size-4'
+      );
+      logoCol.classList.replace(
+        'grid__col-size-6', 'grid__col-size-4'
+      );
+      logoCol.classList.replace(
+        'grid__col-position-7', 'grid__col-position-5'
+      );
+      logoCol.classList.remove('flex--justify-content-end');
+      block.querySelector(
+        '.campaign-template-header--back__text'
+      )?.classList.remove('hide');
+    }
+  }
 
-//   if (ctaBgColor) {
-//     link.style.color = ctaBgColor;
-//   }
-
-//   if (linkText) {
-//     // arrow icon (replaces <Icon name="arrow-stem" />)
-//     const arrow = document.createElement('span');
-//     arrow.className = 'icon icon--arrow-stem';
-//     if (ctaBgColor) arrow.style.fill = ctaBgColor;
-
-//     const text = document.createElement('span');
-//     text.className = 'campaign-template-header--back__text';
-//     text.textContent = linkText;
-
-//     link.append(arrow, text);
-//   }
-
-//   return link;
-// }
-
-
-// function createLogoLink(logoLinkPath, openInNewTab,
-//                          logoImage, logoImageAlt, isV2) {
-//   const link = document.createElement('a');
-//   link.href = logoLinkPath || '/#';
-//   link.className = 'logo-link';
-
-//   if (openInNewTab) {
-//     link.target = '_blank';
-//     link.rel = 'noopener noreferrer';
-//   }
-
-//   // v2 with custom image OR fallback to SVG icon
-//   if (isV2 && logoImage) {
-//     // custom logo image (replaces <Image src=... />)
-//     const img = document.createElement('img');
-//     img.src = logoImage;
-//     img.alt = logoImageAlt || '';
-//     img.className = 'logo';
-//     link.appendChild(img);
-//   } else {
-//     // default SVG icon logo (replaces <Icon name="logo--full--mixed" />)
-//     const icon = document.createElement('span');
-//     icon.className = 'icon icon--logo--full--mixed icon--extra-large logo';
-//     link.appendChild(icon);
-//   }
-
-//   return link;
-// }
-
-
-// function createCtaButton(ctaUrl, ctaText, ctaBgColor, modalId) {
-//   if (!ctaText && !modalId) return null;
-
-//   const btn = document.createElement('a');
-//   btn.href = ctaUrl || '#';
-//   btn.className = 'cta-button';
-//   btn.textContent = ctaText;
-
-//   if (ctaBgColor) {
-//     btn.style.backgroundColor = ctaBgColor;
-//     btn.style.borderColor = ctaBgColor;
-
-//     // determine text color based on bg brightness
-//     // replaces model.ctaTextColorClass logic
-//     const brightness = getColorBrightness(ctaBgColor);
-//     btn.classList.add(
-//       brightness > 128
-//         ? 'cta-button--dark-text'
-//         : 'cta-button--light-text'
-//     );
-//   }
-
-//   if (modalId) {
-//     btn.dataset.modal = modalId;
-//     btn.addEventListener('click', (e) => {
-//       e.preventDefault();
-//       // trigger modal open
-//       const modal = document.getElementById(modalId);
-//       if (modal) {
-//         modal.dispatchEvent(new CustomEvent('open-modal'));
-//       }
-//     });
-//   }
-
-//   return btn;
-// }
-
-
-// // helper: get brightness from hex color
-// // replaces Java model.ctaTextColorClass logic
-// function getColorBrightness(hexColor) {
-//   const hex = hexColor.replace('#', '');
-//   const r = parseInt(hex.substring(0, 2), 16);
-//   const g = parseInt(hex.substring(2, 4), 16);
-//   const b = parseInt(hex.substring(4, 6), 16);
-//   return (r * 299 + g * 587 + b * 114) / 1000;
-// }
-
-
-// // ── RESPONSIVE HANDLING ──
-// // replaces Utils.onBreakpoint logic from container.zb.js
-
-// function handleResponsive(block, ui, isV2) {
-//   if (isV2) return; // v2 has no responsive column changes
-
-//   const mq = window.matchMedia('(max-width: 768px)');
-
-//   function onBreakpointChange(e) {
-//     if (!ui.backLinkCol || !ui.logoCol) return;
-
-//     if (e.matches) {
-//       // below-medium
-//       ui.backLinkCol.classList.replace(
-//         'grid__col-size-4', 'grid__col-size-6'
-//       );
-//       ui.logoCol.classList.replace(
-//         'grid__col-size-4', 'grid__col-size-6'
-//       );
-//       ui.logoCol.classList.replace(
-//         'grid__col-position-5', 'grid__col-position-7'
-//       );
-//       ui.logoCol.classList.add('flex--justify-content-end');
-
-//       const backText = block.querySelector(
-//         '.campaign-template-header--back__text'
-//       );
-//       if (backText) backText.classList.add('hide');
-
-//     } else {
-//       // medium and above
-//       ui.backLinkCol.classList.replace(
-//         'grid__col-size-6', 'grid__col-size-4'
-//       );
-//       ui.logoCol.classList.replace(
-//         'grid__col-size-6', 'grid__col-size-4'
-//       );
-//       ui.logoCol.classList.replace(
-//         'grid__col-position-7', 'grid__col-position-5'
-//       );
-//       ui.logoCol.classList.remove('flex--justify-content-end');
-
-//       const backText = block.querySelector(
-//         '.campaign-template-header--back__text'
-//       );
-//       if (backText) backText.classList.remove('hide');
-//     }
-//   }
-
-//   mq.addEventListener('change', onBreakpointChange);
-//   // run immediately on load
-//   onBreakpointChange(mq);
-// }
-
-
-// // ── HEADROOM INIT ──
-// // replaces Headroom init from container.zb.js
-
-// async function initHeadroom(block, isV2) {
-//   const Headroom = await loadHeadroom();
-
-//   const tolerance = isV2
-//     ? 1000
-//     : (document.querySelector('.hero-jump-links__sticky')
-//         ? 200000
-//         : 1000);
-
-//   const headroom = new Headroom(block, { tolerance });
-//   headroom.init();
-
-//   return headroom;
-// }
-
-
-// ── MAIN DECORATE FUNCTION ──
+  mq.addEventListener('change', onChange);
+  onChange(mq);
+}
 
 export default async function decorate(block) {
- console.log('Decorating campaign-header block with', block);
-  // ── READ FIELDS FROM BLOCK ──
-  // Universal Editor writes these as data attributes
-  // on the block element from the model fields
-//   console.log('Decorating campaign-header block with', block);
-//   const variant     = block.dataset.variant || 'v1';
-//   const linkText    = block.dataset.linkText || '';
-//   const urlLinkPath = block.dataset.urlLinkPath || '';
-//   const logoLinkPath= block.dataset.logoLinkPath || '';
-//   const logoImage   = block.dataset.logoImage || '';
-//   const logoImageAlt= block.dataset.logoImageAlt || '';
-//   const ctaText     = block.dataset.ctaText || '';
-//   const ctaUrl      = block.dataset.ctaUrl || '';
-//   const ctaBgColor  = block.dataset.ctaBgColor || '';
-//   const openInNewTab= block.dataset.openInNewTab === 'true';
-//   const modalId     = block.dataset.modalId || '';
 
-//   const isV2 = variant === 'v2';
+  // V1 model field order (no variant row):
+  // 0 = linkText
+  // 1 = urlLinkPath
+  // 2 = logoLinkPath
+  // 3 = openInNewTab
 
-//   // ── ADD VARIANT CLASS ──
-//   // replaces className="campaign-template-header-v2"
-//   block.classList.add('campaign-template-header');
-//   if (isV2) {
-//     block.classList.add('campaign-template-header-v2');
-//   }
+  const rows = [...block.children];
 
-//   // ── BUILD DOM ──
-//   // replaces JSX render in example.zb.jsx
+  function getRowText(i) {
+    return rows[i]?.querySelector('div')
+      ?.textContent?.trim() || '';
+  }
 
-//   // sticky container (replaces <Container className="sticky-container">)
-//   const stickyContainer = document.createElement('div');
-//   stickyContainer.className = 'sticky-container';
+  function getRowHref(i) {
+    return rows[i]?.querySelector('a')?.href
+      || getRowText(i)
+      || '/#';
+  }
 
-//   const innerSticky = document.createElement('div');
-//   innerSticky.className = 'inner-sticky-container';
+  const linkText    = getRowText(0);
+  const urlLinkPath = getRowHref(1);
+  const logoLinkPath= getRowHref(2);
+  const openInNewTab= getRowText(3) === 'true';
 
-//   // main grid container
-//   const grid = document.createElement('div');
-//   grid.className = [
-//     'container',
-//     'container--default',
-//     'grid',
-//     'grid__gap--none',
-//     isV2
-//       ? 'grid__breakpoint--nobreak'
-//       : (linkText
-//           ? 'grid__breakpoint--nobreak'
-//           : 'grid__breakpoint--large')
-//   ].join(' ');
+  // ── ADD CLASS ──
+  block.classList.add('campaign-template-header');
 
-//   // ── COLUMN 1: BACK LINK ──
-//   const backLinkCol = document.createElement('div');
-//   backLinkCol.className = [
-//     'grid__col-size-4',
-//     'grid__col-position-1',
-//     'flex',
-//     'flex--row',
-//     'flex--align-items-center',
-//     'column-one'
-//   ].join(' ');
+  // ── BACK LINK COL ──
+  const backLinkCol = document.createElement('div');
+  backLinkCol.className =
+    'grid__col-size-4 grid__col-position-1 ' +
+    'flex flex--row flex--align-items-center column-one';
 
-//   if (urlLinkPath) {
-//     const backLink = createBackLink(
-//       linkText, urlLinkPath, openInNewTab,
-//       isV2 ? ctaBgColor : null
-//     );
-//     if (backLink) backLinkCol.appendChild(backLink);
-//   }
+  if (urlLinkPath && urlLinkPath !== '/#') {
+    const backLink = document.createElement('a');
+    backLink.href = urlLinkPath;
+    backLink.className =
+      'campaign-template-header--back ' +
+      'flex flex--row ' +
+      'flex--justify-content-between ' +
+      'flex--align-items-center';
 
-//   // ── COLUMN 2: LOGO ──
-//   const logoCol = document.createElement('div');
-//   logoCol.className = [
-//     'flex',
-//     'flex--row',
-//     'flex--align-items-center',
-//     'grid__gap--none',
-//     isV2 ? 'column-two' : '',
-//     !isV2 ? 'grid__col-size-4 grid__col-position-5' : ''
-//   ].filter(Boolean).join(' ');
+    if (openInNewTab) {
+      backLink.target = '_blank';
+      backLink.rel = 'noopener noreferrer';
+    }
 
-//   const logoLink = createLogoLink(
-//     logoLinkPath, openInNewTab,
-//     logoImage, logoImageAlt, isV2
-//   );
+    if (linkText) {
+      const arrow = document.createElement('span');
+      arrow.className = 'icon icon--arrow-stem';
 
-//   // justify logo based on linkText presence
-//   logoLink.style.justifyContent = linkText
-//     ? 'flex-end'
-//     : 'center';
+      const text = document.createElement('span');
+      text.className =
+        'campaign-template-header--back__text';
+      text.textContent = linkText;
 
-//   logoCol.appendChild(logoLink);
+      backLink.append(arrow, text);
+    }
 
-//   // ── COLUMN 3: CTA (v2 only) ──
-//   const ctaCol = document.createElement('div');
-//   if (isV2 && (ctaText || modalId)) {
-//     ctaCol.className = [
-//       'grid__gap--none',
-//       'column-three',
-//       'flex',
-//       'flex--row',
-//       'flex--justify-content-end',
-//       'flex--align-items-center'
-//     ].join(' ');
+    backLinkCol.appendChild(backLink);
+  }
 
-//     const ctaButton = createCtaButton(
-//       ctaUrl, ctaText, ctaBgColor, modalId
-//     );
-//     if (ctaButton) ctaCol.appendChild(ctaButton);
-//   }
+  // ── LOGO COL ──
+  const logoCol = document.createElement('div');
+  logoCol.className =
+    'grid__col-size-4 grid__col-position-5 ' +
+    'flex flex--row flex--align-items-center';
 
-//   // ── ASSEMBLE DOM ──
-//   grid.append(backLinkCol, logoCol);
-//   if (isV2 && (ctaText || modalId)) {
-//     grid.appendChild(ctaCol);
-//   }
+  const logoLink = document.createElement('a');
+  logoLink.href = logoLinkPath;
+  logoLink.className = 'logo-link';
+  logoLink.style.justifyContent = linkText
+    ? 'flex-end' : 'center';
 
-//   innerSticky.appendChild(grid);
-//   stickyContainer.appendChild(innerSticky);
+  if (openInNewTab) {
+    logoLink.target = '_blank';
+    logoLink.rel = 'noopener noreferrer';
+  }
 
-//   // clear block and append built DOM
-//   block.innerHTML = '';
-//   block.appendChild(stickyContainer);
+  // V1 always uses SVG icon logo
+  const icon = document.createElement('span');
+  icon.className =
+    'icon icon--logo--full--mixed icon--extra-large logo';
+  logoLink.appendChild(icon);
+  logoCol.appendChild(logoLink);
 
-//   // ── UI REFERENCES ──
-//   // mirrors ui object from container.zb.js
-//   const ui = {
-//     el: block,
-//     backLinkCol,
-//     logoCol,
-//     backLink: block.querySelector(
-//       '.campaign-template-header--back'
-//     ),
-//     backText: block.querySelector(
-//       '.campaign-template-header--back__text'
-//     ),
-//     logo: block.querySelector('.logo'),
-//     ctaButton: block.querySelector('.cta-button'),
-//   };
+  // ── EMPTY COL 3 (v1 has no CTA) ──
+  const emptyCol = document.createElement('div');
+  emptyCol.className =
+    'grid__col-size-4 grid__col-position-10 ' +
+    'flex flex--row flex--justify-content-end ' +
+    'flex--align-items-center';
 
-//   // ── RESPONSIVE HANDLING ──
-//   // replaces Utils.onBreakpoint from container.zb.js
-//   handleResponsive(block, ui, isV2);
+  // ── GRID ──
+  const grid = document.createElement('div');
+  grid.className = [
+    'container container--default',
+    'grid grid__gap--none',
+    linkText
+      ? 'grid__breakpoint--nobreak'
+      : 'grid__breakpoint--large'
+  ].join(' ');
+  grid.append(backLinkCol, logoCol, emptyCol);
 
-//   // ── HEADROOM INIT ──
-//   // replaces Headroom init from container.zb.js
-//   await initHeadroom(block, isV2);
+  // ── ASSEMBLE ──
+  const innerSticky = document.createElement('div');
+  innerSticky.className = 'inner-sticky-container';
+  innerSticky.appendChild(grid);
+
+  const stickyContainer = document.createElement('div');
+  stickyContainer.className = 'sticky-container';
+  stickyContainer.appendChild(innerSticky);
+
+  block.innerHTML = '';
+  block.appendChild(stickyContainer);
+
+  // ── RESPONSIVE + HEADROOM ──
+  handleResponsive(block, backLinkCol, logoCol);
+  await initHeadroom(block);
 }
