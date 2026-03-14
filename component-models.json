@@ -139,8 +139,12 @@
           },
           {
             "name": "Welcome Zimmer",
-            "value": "welcomeZimmer"
-          }
+            "value": "welcomezimmer"
+          },
+          {
+            "name": "Zimmer Card",
+            "value": "zimmercard" 
+          } 
         ]
       }
     ]
