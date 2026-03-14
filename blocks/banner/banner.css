@@ -1,69 +1,116 @@
-.banner.block {
-  position: relative;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BANNER BLOCK
+   Matches zimmerbiomet.in hero banner styles
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.banner-wrapper {
+    max-width: unset !important;
+    padding: 0 !important; 
+}
+/* ── OUTER BLOCK ── */
+.banner {
+
   width: 100%;
-  min-height: 480px;
+  background-size: cover;
+  min-height: 425px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* display: flex; */
+  /* flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  padding: 96px !important;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ── INNER WRAPPER ── */
+.banner .banner-inner {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: flex-start;
-  color: #fff;
-  overflow: hidden;
-  padding: 40px;
+  align-items: flex-start;
+  max-width: 1200px;
+  width: 100%;
+  gap: 2rem;
+}
+
+/* ── HEADING ── */
+.banner .banner-heading {
+  font-family: 'Open Sans', sans-serif;
+  font-size: calc(27px + 1.30208vw) ;       /* matches heading--h2 */
+  font-weight: 700;         /* matches heading--weight-bold */
+  color: #ffffff;           /* matches color--white */
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* ── DESCRIPTION ── */
+.banner .banner-description {
+  max-width: 41.66%;        /* matches aem-GridColumn--default--5 = 5/12 */
+  width: 100%;
   box-sizing: border-box;
 }
 
-/* Background Image */
-.banner.block.has-bg {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* Soft overlay for contrast */
-.banner.block::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    rgba(0,0,0,0.45),
-    rgba(0,0,0,0.25)
-  );
-  z-index: 0;
-}
-
-/* Content */
-.banner-content {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-}
-
-/* Heading */
-.banner-heading {
-  font-size: clamp(32px, 4vw, 56px);
-  font-weight: 700;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-
-/* Paragraph */
-.banner-text {
-  font-size: clamp(16px, 1.5vw, 20px);
+.banner .banner-description p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
   line-height: 1.6;
+  color: #ffffff;           /* matches color--white */
+  margin: 0 0 1rem 0;
+  font-weight: 700 ;
+}
+
+.banner .banner-description p:last-child {
   margin-bottom: 0;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .banner.block {
-    min-height: 360px;
-    padding: 24px;
+/* ── TABLET ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .banner {
+    min-height: 380px;
+    padding: 3rem 1.5rem;
   }
 
-  .banner-heading {
-    font-size: 28px;
+  /* .banner .banner-heading {
+    font-size: 2rem;
+  } */
+
+  .banner .banner-description {
+    max-width: 55%;
+  }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .banner {
+    min-height: 320px;
+    padding: 2.5rem 1rem;   /* matches rhythm--large + padding--large mobile */
+    background-position: center center;
   }
 
-  .banner-text {
-    font-size: 16px;
+  .banner .banner-heading {
+    font-size: 1.75rem;
+  }
+
+  .banner .banner-description {
+    max-width: 91.66%;      /* matches aem-GridColumn--phone--11 = 11/12 */
+  }
+
+  .banner .banner-description p {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ── LARGE SCREENS ── */
+@media (min-width: 1440px) {
+  .banner {
+    padding: 4rem calc((100% - 1200px) / 2 + 2rem);
+  }
+
+  .banner .banner-inner {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 }

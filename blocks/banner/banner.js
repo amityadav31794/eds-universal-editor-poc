@@ -1,41 +1,58 @@
 export default function decorate(block) {
-  // Extract rows (UE always creates rows)
-  const [imageRow, titleRow, textRow] = block.children;
 
-  // Get useful elements
-  const picture = imageRow?.querySelector('picture');
-  const heading = titleRow?.querySelector('h2, h1, h3');
-  const paragraph = textRow?.querySelector('p');
+  // ── READ ROWS ──
+  const rows = [...block.children];
 
-  // Add EDS classes
-  block.classList.add('banner--eds');
+  // row 0 → background image (picture element)
+  const picture = rows[0]?.querySelector('picture');
 
-  // Convert image into background image
+  // row 1 → heading
+  const headingEl = rows[1]?.querySelector('h2, h3, h4');
+  const headingText = headingEl?.textContent?.trim() || '';
+
+  // row 2 → description paragraph
+  const descEl = rows[2]?.querySelector('div');
+  const descHTML = descEl?.innerHTML || '';
+
+  // ── SET BACKGROUND IMAGE ──
+  // use largest srcset from picture for background
   if (picture) {
     const img = picture.querySelector('img');
-    if (img) {
-      block.style.backgroundImage = `url('${img.src}')`;
-      block.classList.add('has-bg');
+    const webpSource = picture.querySelector(
+      'source[type="image/webp"][media]'
+    );
+
+    // get best quality image URL for background
+    const bgUrl = webpSource
+      ? webpSource.getAttribute('srcset')?.split('?')[0]
+      : img?.src?.split('?')[0];
+
+    if (bgUrl) {
+      block.style.backgroundImage = `url('${bgUrl}')`;
     }
-    // Remove picture from DOM (optional)
-    picture.remove();
   }
 
-  // Wrap text inside a container
-  const contentWrapper = document.createElement('div');
-  contentWrapper.className = 'banner-content';
+  // ── BUILD DOM ──
+  const inner = document.createElement('div');
+  inner.className = 'banner-inner';
 
-  if (heading) {
-    heading.classList.add('banner-heading');
-    contentWrapper.append(heading);
+  // heading
+  if (headingText) {
+    const heading = document.createElement('h2');
+    heading.className = 'banner-heading';
+    heading.textContent = headingText;
+    inner.appendChild(heading);
   }
 
-  if (paragraph) {
-    paragraph.classList.add('banner-text');
-    contentWrapper.append(paragraph);
+  // description
+  if (descHTML) {
+    const desc = document.createElement('div');
+    desc.className = 'banner-description';
+    desc.innerHTML = descHTML;
+    inner.appendChild(desc);
   }
 
-  // Clear block before inserting final structure
+  // ── REPLACE BLOCK CONTENT ──
   block.innerHTML = '';
-  block.append(contentWrapper);
+  block.appendChild(inner);
 }
