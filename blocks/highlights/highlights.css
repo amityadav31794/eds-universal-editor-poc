@@ -1,0 +1,151 @@
+/* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, sans-serif; font-size: 18px; line-height: 1.4; }
+
+    /* ── SECTION WRAPPER ── */
+    .highlights {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    /* ── SHARED COLUMN BASE ── */
+    .highlights__col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      gap: 1rem;
+    }
+
+    /* ── LEFT COLUMN — dark bg image ── */
+    .highlights__col--dark {
+      background-size: cover;
+      background-position: center;
+      background-image: url('/content/dam/zb-corporate/en/homepage-redesign/3-Highlights-Background_mobile@2x.png');
+    }
+
+    /* ── RIGHT COLUMN — gradient bg ── */
+    .highlights__col--gradient {
+      background: linear-gradient(135deg, #f5e642 0%, #2b2b80 50%, #c9006b 100%);
+    }
+
+    /* ── HEADING ── */
+    .highlights__heading {
+      font-family: 'Open Sans', Inter, sans-serif;
+      font-size: calc(19px + 1.30208vw);
+      line-height: calc(36px + 0.520833vw);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .highlights__heading--white { color: #fff; }
+    .highlights__heading--dark  { color: #2b2b80; }
+
+    /* ── BODY TEXT ── */
+    .highlights__text {
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .highlights__text--white { color: #fff; }
+
+    /* ── BUTTON BASE ── */
+    .highlights__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Inter, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      border: none;
+      padding: 0.6875rem 0.875rem;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    /* tertiary — light blue */
+    .highlights__btn--tertiary {
+      background: rgb(235, 247, 253);
+      color: #000;
+      box-shadow: rgba(17, 17, 55, 0.06) 0px 6px 24px;
+    }
+
+    /* secondary — dark blue */
+    .highlights__btn--secondary {
+      background: rgb(43, 43, 128);
+      color: #fff;
+    }
+
+    /* arrow icon inside button */
+    .highlights__btn svg {
+      width: 50px;
+      height: 2rem;
+      flex-shrink: 0;
+    }
+
+    .highlights__btn--tertiary svg { fill: #000; stroke: #000; }
+    .highlights__btn--secondary svg { fill: #fff; stroke: #fff; }
+
+    /* ── STOCK PRICE ── */
+    .stock {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: left;
+      color: #fff;
+    }
+
+    .stock__label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stock__price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stock__change {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.875rem;
+      color: #fff;
+    }
+
+    .stock__change svg {
+      width: 16px;
+      height: 16px;
+      fill: #8db600;
+    }
+
+    .stock__updated {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.4;
+    }
+
+    /* ── BUTTON ROW inside left col ── */
+    .highlights__actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 767px) {
+      .highlights { flex-direction: column; }
+      .highlights__col { padding: 24px 16px; }
+      .highlights__actions { flex-direction: column; align-items: flex-start; }
+    }

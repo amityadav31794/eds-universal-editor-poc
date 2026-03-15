@@ -1,10 +1,12 @@
 export default function decorate(block) {
+  console.log('Decorating columns block with', block);
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-${cols.length}-cols`);
 
   // setup image columns
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
+      col.classList.add(`columns-col`);
       const pic = col.querySelector('picture');
       if (pic) {
         const picWrapper = pic.closest('div');

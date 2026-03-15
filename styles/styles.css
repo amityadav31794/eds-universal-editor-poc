@@ -257,7 +257,7 @@ main .section.highlight {
 }
 
 main .section.welcomezimmer {
-  margin: 0;
+  margin: 30px 0;
   text-align: center;
 }
 
@@ -271,4 +271,49 @@ main .section.welcomezimmer p {
   width: 66.67%;
   margin: auto;
 }
-    
+
+main .section.zimmercard {
+  margin: 40px 0;
+  background-image: radial-gradient(95% 95% at 50% 17%, rgb(255, 255, 255) 0px, rgb(227, 227, 228) 100%);
+}
+
+main .section.zimmercard .columns-img-col{
+  margin-left: 8.33%
+} 
+main .section.zimmercard .columns-col h1{
+  font-size: calc(19px + 1.30208vw);
+  line-height: calc(36px + 0.520833vw);
+  color: #2b2b80;
+  margin: unset;
+}
+main .section.zimmercard .columns> div > div:first-child {
+  flex: 1.5;                 /* takes 2 parts = 66.66% */
+}
+main .section.zimmercard  .columns-wrapper {
+  padding: 0px;
+}
+@media only screen and (min-width: 768px) {
+  main .section.zimmercard {
+    padding: 16px;
+  }
+  main .section.zimmercard .columns> div > div:first-child {
+    padding: 32px;                 /* takes 2 parts = 66.66% */
+  }
+}
+
+@media (width >= 900px) {
+  main .section.zimmercard .columns > div {
+    align-items: unset;
+  }
+}
+
+@media (width >= 1200px) {
+  main .section.zimmercard{
+    margin: 60px 20px ;
+  }
+
+  main .section.zimmercard .columns-wrapper{
+    margin: 0px;
+    max-width: unset;
+  }
+}

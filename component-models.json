@@ -143,9 +143,76 @@
           },
           {
             "name": "Zimmer Card",
-            "value": "zimmercard" 
-          } 
+            "value": "zimmercard"
+          }
         ]
+      }
+    ]
+  },
+  {
+    "id": "highlights",
+    "fields": [
+      {
+        "component": "reference",
+        "name": "leftBgImage",
+        "label": "Left Column Background Image",
+        "valueType": "string",
+        "description": "Background image for the dark left column"
+      },
+      {
+        "component": "text",
+        "name": "leftHeading",
+        "label": "Left Column Heading",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "leftBodyText",
+        "label": "Left Column Body Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "leftCtaText",
+        "label": "Left CTA Button Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "leftCtaUrl",
+        "label": "Left CTA Button URL",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "stockCardCode",
+        "label": "Stock Card Code (Ticker)",
+        "valueType": "string",
+        "description": "Stock ticker symbol e.g. ZBH — used to fetch live price"
+      },
+      {
+        "component": "text",
+        "name": "rightHeading",
+        "label": "Right Column Heading",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "rightBodyText",
+        "label": "Right Column Address / Body Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "rightCtaText",
+        "label": "Right CTA Button Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "rightCtaUrl",
+        "label": "Right CTA Button URL",
+        "valueType": "string"
       }
     ]
   },

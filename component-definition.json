@@ -83,6 +83,30 @@
       "id": "zimmer-blocks",
       "components": [
         {
+          "title": "Highlights",
+          "id": "highlights",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Highlights",
+                  "model": "highlights",
+                  "leftHeading": "",
+                  "leftBodyText": "",
+                  "leftCtaText": "",
+                  "leftCtaUrl": "",
+                  "stockCardCode": "ZBH",
+                  "rightHeading": "",
+                  "rightBodyText": "",
+                  "rightCtaText": "",
+                  "rightCtaUrl": ""
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Bannner",
           "id": "banner",
           "plugins": {
