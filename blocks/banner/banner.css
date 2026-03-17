@@ -1,12 +1,8 @@
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   BANNER BLOCK
-   Matches zimmerbiomet.in hero banner styles
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 .banner-wrapper {
     max-width: unset !important;
     padding: 0 !important; 
 }
-/* ── OUTER BLOCK ── */
 .banner {
 
   width: 100%;
@@ -23,7 +19,6 @@
   position: relative;
 }
 
-/* ── INNER WRAPPER ── */
 .banner .banner-inner {
   display: flex;
   flex-direction: column;
@@ -34,21 +29,21 @@
   gap: 2rem;
 }
 
-/* ── HEADING ── */
+
 .banner .banner-heading {
   font-family: 'Open Sans', sans-serif;
-  font-size: calc(27px + 1.30208vw) ;       /* matches heading--h2 */
-  font-weight: 700;         /* matches heading--weight-bold */
-  color: #ffffff;           /* matches color--white */
+  font-size: calc(27px + 1.30208vw) ;     
+  font-weight: 700;       
+  color: #ffffff;          
   margin: 0;
   padding: 0;
   line-height: 1.2;
   text-align: left;
 }
 
-/* ── DESCRIPTION ── */
+
 .banner .banner-description {
-  max-width: 41.66%;        /* matches aem-GridColumn--default--5 = 5/12 */
+  max-width: 41.66%;       
   width: 100%;
   box-sizing: border-box;
 }
@@ -57,7 +52,7 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  color: #ffffff;           /* matches color--white */
+  color: #ffffff;         
   margin: 0 0 1rem 0;
   font-weight: 700 ;
 }
@@ -66,27 +61,25 @@
   margin-bottom: 0;
 }
 
-/* ── TABLET ── */
+
 @media (min-width: 769px) and (max-width: 1024px) {
   .banner {
     min-height: 380px;
     padding: 3rem 1.5rem;
   }
 
-  /* .banner .banner-heading {
-    font-size: 2rem;
-  } */
+
 
   .banner .banner-description {
     max-width: 55%;
   }
 }
 
-/* ── MOBILE ── */
+
 @media (max-width: 768px) {
   .banner {
     min-height: 320px;
-    padding: 2.5rem 1rem;   /* matches rhythm--large + padding--large mobile */
+    padding: 2.5rem 1rem;  
     background-position: center center;
   }
 
@@ -95,7 +88,7 @@
   }
 
   .banner .banner-description {
-    max-width: 91.66%;      /* matches aem-GridColumn--phone--11 = 11/12 */
+    max-width: 91.66%;      
   }
 
   .banner .banner-description p {
@@ -103,7 +96,6 @@
   }
 }
 
-/* ── LARGE SCREENS ── */
 @media (min-width: 1440px) {
   .banner {
     padding: 4rem calc((100% - 1200px) / 2 + 2rem);

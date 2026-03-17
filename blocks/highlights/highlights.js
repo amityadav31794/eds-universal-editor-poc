@@ -1,17 +1,5 @@
 export default async function decorate(block) {
 
-  // ── READ ROWS FROM UE ──
-  // 0  = leftBgImage  (reference → img tag)
-  // 1  = leftHeading
-  // 2  = leftBodyText
-  // 3  = leftCtaText
-  // 4  = leftCtaUrl
-  // 5  = stockCardCode  (kept for future API use)
-  // 6  = rightHeading
-  // 7  = rightBodyText (richtext → HTML)
-  // 8  = rightCtaText
-  // 9  = rightCtaUrl
-
   const rows = [...block.children];
 
   function getText(i) {
@@ -37,18 +25,16 @@ export default async function decorate(block) {
   const leftBodyText = getText(2);
   const leftCtaText  = getText(3);
   const leftCtaUrl   = getHref(4);
-  // const cardCode  = getText(5) || 'ZBH'; // TODO: use for API
   const rightHeading = getText(6);
   const rightHTML    = getHTML(7);
   const rightCtaText = getText(8);
   const rightCtaUrl  = getHref(9);
 
-  // ── BG IMAGE ──
+
   const leftBgStyle = leftBgImg
     ? `style="background-image: url('${leftBgImg.src}')"`
     : '';
 
-  // ── BUILD HTML ──
   block.innerHTML = `
     <section class="highlights">
 
@@ -62,9 +48,9 @@ export default async function decorate(block) {
         <p class="highlights__text highlights__text--white">
           ${leftBodyText}
         </p>
-
+        <br>
         <div class="highlights__actions">
-
+        <div>
           <a class="highlights__btn highlights__btn--tertiary"
              href="${leftCtaUrl}"
              target="_blank"
@@ -74,7 +60,7 @@ export default async function decorate(block) {
               <use xlink:href="#icon-arrow-stem"></use>
             </svg>
           </a>
-
+         </div>
           <!-- TODO: replace with live API data using cardCode -->
           <div class="stock">
             <span class="stock__label">Stock Price</span>
@@ -101,11 +87,11 @@ export default async function decorate(block) {
         <h2 class="highlights__heading highlights__heading--dark">
           ${rightHeading}
         </h2>
-
-        <div class="highlights__text highlights__text--white">
+        <br><br>
+        <div class="highlights__text highlights__text--dark">
           ${rightHTML}
         </div>
-
+        <br><br>
         <a class="highlights__btn highlights__btn--secondary"
            href="${rightCtaUrl}"
            target="_blank"

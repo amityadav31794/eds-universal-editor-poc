@@ -287,7 +287,7 @@ main .section.zimmercard .columns-col h1{
   margin: unset;
 }
 main .section.zimmercard .columns> div > div:first-child {
-  flex: 1.5;                 /* takes 2 parts = 66.66% */
+  flex: 1.5;                
 }
 main .section.zimmercard  .columns-wrapper {
   padding: 0px;
@@ -297,7 +297,7 @@ main .section.zimmercard  .columns-wrapper {
     padding: 16px;
   }
   main .section.zimmercard .columns> div > div:first-child {
-    padding: 32px;                 /* takes 2 parts = 66.66% */
+    padding: 32px;               
   }
 }
 
